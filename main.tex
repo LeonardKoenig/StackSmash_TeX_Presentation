@@ -1,0 +1,170 @@
+\def\my_aspectratio{169}
+\def\mysize{\scriptsize}
+
+%\def\my_aspectratio{43}
+%\def\mysize{\tiny}
+\documentclass[aspectratio=\my_aspectratio]{beamer}
+\usetheme{m}
+
+\usepackage{xunicode}
+\usepackage{xltxtra}
+
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+
+\usepackage[scale=1]{ccicons} % CC-BY-SA for theme
+\usepackage{graphicx}
+\usepackage{minted}
+
+\subject{Smashing The Stack For Fun And Profit}
+\title{Smashing The Stack For Fun And Profit}
+\subtitle{Artikel von Aleph One}
+\def\my_author{Leonard König}
+\author{\my_author}
+
+\institute{
+Freie Universtiät Berlin\vspace{5pt}\\
+\includegraphics[height=1cm]{fu-berlin__Logo_RGB.jpg}
+}
+\date{}
+%\date{\today}
+
+%% misc
+%\setbeamercovered{transparent} 
+\setbeamertemplate{navigation symbols}{} 
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Timeline}
+\setbeamertemplate{section in toc}[sections numbered]
+\tableofcontents
+\end{frame}
+
+\section{Einführung}
+\begin{frame}{Code-Fixes}
+\begin{center}
+Meine Anpassungen an den Code:
+\end{center}
+\begin{minipage}{.5\textwidth}
+\inputminted[firstline=7, lastline=8, fontsize=\mysize, linenos]{c}{../Uebungen/c_src/part4/inj32/ex3_phrack.c}
+\end{minipage}%
+%
+\begin{minipage}{.5\textwidth}
+\inputminted[firstline=9, lastline=13, fontsize=\tiny, linenos]{c}{../Uebungen/c_src/part4/inj32/ex3.c}
+\end{minipage}
+\vfill
+\begin{itemize}
+\item Offset-Adresse von \(12\) zu \(13\) geändert
+\item Adress-Differenz von \(8\) auf \(10\)
+\item Cleanup / explizites Type-Casting
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Differenz Sprung-Adresse}
+\inputminted[firstline=29, lastline=32, fontsize=\mysize, linenos]{c-objdump}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+
+Differenz eindeutig 10 (\( \mathtt{0x804843d} - \mathtt{0x8048447} = \mathtt{0xa} = 10\))
+\end{frame}
+
+\begin{frame}{Stack-Layout}
+\inputminted[firstline=1, lastline=7, fontsize=\scriptsize]{Text}{../Uebungen/c_src/part4/inj32/other.text}
+\end{frame}
+
+\begin{frame}{GAS/AT\&T vs. intel}
+\begin{minipage}{.5\textwidth}
+\inputminted[firstline=51, lastline=65, firstnumber=1, fontsize=\scriptsize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\inputminted[firstline=69, lastline=83, firstnumber=1, fontsize=\scriptsize, linenos]{nasm}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+\end{minipage}
+\end{frame}
+
+\section{Code}
+\begin{frame}{Erklärung des Codes}
+\begin{minipage}{.5\textwidth}
+\vspace*{-12pt}
+\onslide<1->{%
+\inputminted[firstline=88, lastline=89, firstnumber=1, fontsize=\mysize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+}
+\vspace*{-12pt}
+\onslide<2->{%
+\inputminted[firstline=90, lastline=91, firstnumber=last,fontsize=\mysize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+}
+\vspace*{-12pt}
+\onslide<3->{%
+\inputminted[firstline=92, lastline=93, firstnumber=last, firstnumber=last,fontsize=\mysize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+}
+\vspace*{-12pt}
+\onslide<4->{%
+\inputminted[firstline=94, lastline=94, firstnumber=last, fontsize=\mysize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+}
+\vspace*{-12pt}
+\onslide<5->{%
+\inputminted[firstline=95, lastline=96, firstnumber=last, fontsize=\mysize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+}
+\vspace*{-12pt}
+\onslide<6->{%
+\inputminted[firstline=99, lastline=100, firstnumber=last, fontsize=\mysize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+}
+\vspace*{-12pt}
+\onslide<7->{%
+\inputminted[firstline=101, lastline=102, firstnumber=last, fontsize=\mysize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+}
+\vspace*{-12pt}
+\onslide<8->{%
+\inputminted[firstline=103, lastline=106, firstnumber=last, fontsize=\mysize, linenos]{gas}{../Uebungen/c_src/part4/inj32/ex3.c-objdump}
+}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\onslide<1->{%
+\inputminted[firstline=9, lastline=10, firstnumber=1, fontsize=\mysize, linenos]{c}{../Uebungen/c_src/part4/inj32/ex3.c}
+}
+\onslide<5->{%
+\inputminted[firstline=12, lastline=13, firstnumber=last, fontsize=\mysize, linenos]{c}{../Uebungen/c_src/part4/inj32/ex3.c}
+}
+\end{minipage}
+\vspace*{-30pt}
+\end{frame}
+
+\section{Anmerkungen}
+\begin{frame}{Komisches Stack-Layout}
+\inputminted[firstline=1, lastline=7, fontsize=\scriptsize]{Text}{../Uebungen/c_src/part4/inj32/other.text}
+\begin{enumerate}
+\item<1-> Komisches Stack-Layout wg. \texttt{-O0}
+\item<2-> Jedoch mit anderen Optimierungen wird \texttt{function()} komplett weg-optimiert
+\item<3-> Müssten Code modifizieren, sodass er schwer weg-optimiert werden kann
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{64-Bit Version}
+\inputminted[firstline=1, lastline=17, fontsize=\scriptsize, linenos]{c}{../Uebungen/c_src/part4/inj64/ex3.c}
+\end{frame}
+
+\begin{frame}{Fragen?}
+\center{{\LARGE Fragen?}}
+\end{frame}
+
+\setbeamertemplate{headline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=12ex,dp=3.5ex]{secsubsec}%
+    \raggedright
+    \hspace*{2em}%
+    {{\large\my_author}\hfill\includegraphics[height=1cm]{fu-berlin__Logo_RGB.jpg}}%
+    \hspace*{2em}%
+  \end{beamercolorbox}%
+  }%
+}
+
+\begin{frame}
+\begin{center}
+{\large \textbf{Danke für's Zuhören!}}
+\end{center}
+\vfill
+Phrack-Artikel: \url{phrack.org/issues/49/14.html}\\
+Xe\LaTeX -theme: \texttt{mtheme}: \url{github.com/matze/mtheme} \hfill \ccbysa
+\end{frame}
+\end{document}
