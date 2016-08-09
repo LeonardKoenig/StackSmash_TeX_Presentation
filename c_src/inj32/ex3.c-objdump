@@ -1,0 +1,109 @@
+080483fb <function>:
+ 80483fb:	55                   	push   %ebp
+ 80483fc:	89 e5                	mov    %esp,%ebp
+ 80483fe:	83 ec 10             	sub    $0x10,%esp
+ 8048401:	8d 45 f7             	lea    -0x9(%ebp),%eax
+ 8048404:	83 c0 0d             	add    $0xd,%eax
+ 8048407:	89 45 fc             	mov    %eax,-0x4(%ebp)
+ 804840a:	8b 45 fc             	mov    -0x4(%ebp),%eax
+ 804840d:	8b 00                	mov    (%eax),%eax
+ 804840f:	8d 50 0a             	lea    0xa(%eax),%edx
+ 8048412:	8b 45 fc             	mov    -0x4(%ebp),%eax
+ 8048415:	89 10                	mov    %edx,(%eax)
+ 8048417:	90                   	nop
+ 8048418:	c9                   	leave
+ 8048419:	c3                   	ret
+
+0804841a <main>:
+ 804841a:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+ 804841e:	83 e4 f0             	and    $0xfffffff0,%esp
+ 8048421:	ff 71 fc             	pushl  -0x4(%ecx)
+ 8048424:	55                   	push   %ebp
+ 8048425:	89 e5                	mov    %esp,%ebp
+ 8048427:	51                   	push   %ecx
+ 8048428:	83 ec 14             	sub    $0x14,%esp
+ 804842b:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+ 8048432:	6a 03                	push   $0x3
+ 8048434:	6a 02                	push   $0x2
+ 8048436:	6a 01                	push   $0x1
+ 8048438:	e8 be ff ff ff       	call   80483fb <function>
+ 804843d:	83 c4 0c             	add    $0xc,%esp
+ 8048440:	c7 45 f4 01 00 00 00 	movl   $0x1,-0xc(%ebp)
+ 8048447:	83 ec 08             	sub    $0x8,%esp
+ 804844a:	ff 75 f4             	pushl  -0xc(%ebp)
+ 804844d:	68 f0 84 04 08       	push   $0x80484f0
+ 8048452:	e8 79 fe ff ff       	call   80482d0 <printf@plt>
+ 8048457:	83 c4 10             	add    $0x10,%esp
+ 804845a:	b8 00 00 00 00       	mov    $0x0,%eax
+ 804845f:	8b 4d fc             	mov    -0x4(%ebp),%ecx
+ 8048462:	c9                   	leave
+ 8048463:	8d 61 fc             	lea    -0x4(%ecx),%esp
+ 8048466:	c3                   	ret
+ 8048467:	66 90                	xchg   %ax,%ax
+ 8048469:	66 90                	xchg   %ax,%ax
+ 804846b:	66 90                	xchg   %ax,%ax
+ 804846d:	66 90                	xchg   %ax,%ax
+ 804846f:	90                   	nop
+
+
+# =========
+
+function:
+    push   %ebp
+    mov    %esp,%ebp
+    sub    $0x10,%esp
+    lea    -0x9(%ebp),%eax
+    add    $0xd,%eax
+    mov    %eax,-0x4(%ebp)
+    mov    -0x4(%ebp),%eax
+    mov    (%eax),%eax
+    lea    0xa(%eax),%edx
+    mov    -0x4(%ebp),%eax
+    mov    %edx,(%eax)
+    nop
+    leave
+    ret
+
+# ========
+
+function:
+    push   ebp
+    mov    ebp,esp
+    sub    esp,0x10
+    lea    eax,[ebp-0x9]
+    add    eax,0xd
+    mov    DWORD PTR [ebp-0x4],eax
+    mov    eax,DWORD PTR [ebp-0x4]
+    mov    eax,DWORD PTR [eax]
+    lea    edx,[eax+0xa]
+    mov    eax,DWORD PTR [ebp-0x4]
+    mov    DWORD PTR [eax],edx
+    nop
+    leave
+    ret
+
+# ========= GAS, commented
+
+function:
+    push   %ebp
+    mov    %esp,%ebp
+    # allocate from stack
+    sub    $0x10,%esp
+    # load &buffer1[0]
+    lea    -0x9(%ebp),%eax
+    add    $0xd,%eax
+    # backup address of ret-addr
+    mov    %eax,-0x4(%ebp)
+    # NOP
+    mov    -0x4(%ebp),%eax
+    # load ret-addr (ie. *ret)
+    mov    (%eax),%eax
+    # add 10 (ie. new *ret)
+    lea    0xa(%eax),%edx
+    # load address of the ret-addr
+    mov    -0x4(%ebp),%eax
+    # write the new return adress
+    mov    %edx,(%eax)
+    nop
+    leave
+    ret

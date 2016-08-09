@@ -1,0 +1,7 @@
+bottom of                                               top of
+memory                                                  memory
+           ???????  buffer1   ?  sbp   ret   a     b     c
+<------   [xxxxxxx][01234567][x][0xBP][0xRE][0001][0002][0003]
+           ^\ sp    ^\ ebp-0x9   ^\ bp
+top of                                                bottom of
+stack                                                     stack
