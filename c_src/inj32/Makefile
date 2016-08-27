@@ -1,4 +1,4 @@
-CFLAGS=-Wall -m32 -std=c99 -g3 -O1
+CFLAGS=-Wall -m32 -std=c99 -g3 -O0
 
 all:
 	make ex3
