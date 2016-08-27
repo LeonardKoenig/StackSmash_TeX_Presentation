@@ -2,7 +2,7 @@
 /* not sure whether needed; better safe than sorry. */
 #include <stdint.h>
 
-void function(int a, int b, int c)
+void function()
 {
 	char buffer1[5];
 	uintptr_t *ret;
@@ -21,7 +21,7 @@ int main()
 	int x;
 
 	x = 0;
-	function(1,2,3);
+	function();
 	x = 1;
 	printf("%d\n",x);
 	return 0;
